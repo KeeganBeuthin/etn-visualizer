@@ -4,6 +4,17 @@ import axios from "axios";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 
+const getColorByIndex = (index) => {
+  const colors = [
+    "rgba(75,192,192,1)",
+    "rgba(75,0,192,1)",
+    "rgba(75,192,0,1)",
+    "rgba(192,75,192,1)",
+  ];
+
+  return colors[index % colors.length];
+};
+
 const EtnChart = () => {
   const [chartData, setChartData] = useState({ datasets: [] });
 
@@ -17,7 +28,7 @@ const EtnChart = () => {
         let markedPrices = [];
         let labels = [];
 
-        const promises = symbols.map(async (symbol) => {
+        const promises = symbols.map(async (symbol, index) => {
           const response = await axios.get(
             `/api/etn?symbol=${symbol}&start=${startDate}&end=${endDate}`
           );
@@ -47,7 +58,7 @@ const EtnChart = () => {
           return {
             label: `${symbol} Price`,
             data: prices,
-            borderColor: "rgba(75,192,192,1)",
+            borderColor: getColorByIndex(index),
             fill: false,
           };
         });
@@ -57,7 +68,7 @@ const EtnChart = () => {
         const markedPricesDataset = {
           label: "Marked Prices",
           data: markedPrices,
-          borderColor: "rgba(255, 0, 0, 1)",
+          borderColor: "rgba(100, 0, 0, 1)",
           backgroundColor: "rgba(255, 0, 0, 1)",
           showLine: false,
           pointRadius: 5,

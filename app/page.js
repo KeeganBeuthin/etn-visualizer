@@ -1,5 +1,5 @@
 // app/page.js
-import EtnChart from './components/etnChart'
+import EtnChart from "./components/etnChart";
 
 export default function Home() {
   return (
